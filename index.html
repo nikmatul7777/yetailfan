@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Karina Permata Zuhruf</title>
+  <style>
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+    }
+    html, body {
+      font-family: Arial, sans-serif;
+      background: black;
+    }
+
+    .background {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-size: cover;
+      background-position: center;
+      z-index: 0;
+      transition: background-image 0.5s ease;
+    }
+
+    .blur-layer {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      backdrop-filter: blur(8px);
+      background-color: rgba(0, 0, 0, 0.4);
+      z-index: 1;
+    }
+
+    .content {
+      position: relative;
+      z-index: 2;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    .title, .subtitle {
+      background-color: #7b6654;
+      border-radius: 20px;
+      padding: 10px 20px;
+      margin-bottom: 10px;
+    }
+
+    .title {
+      font-size: 28px;
+      color: black;
+      font-weight: bold;
+    }
+
+    .subtitle {
+      font-size: 16px;
+      color: white;
+    }
+
+    .button {
+      background-color: #7b6654;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 15px;
+      font-weight: bold;
+      cursor: pointer;
+      margin: 10px;
+    }
+
+    .popup-box {
+      position: relative;
+      z-index: 3;
+      width: 90%;
+      max-width: 700px;
+      background-color: rgba(123, 102, 84, 0.95);
+      border-radius: 25px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.4);
+      padding: 20px;
+      margin: 100px auto;
+      display: none;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .popup-box.show {
+      display: flex;
+    }
+
+    .popup-image {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      border-radius: 15px;
+    }
+
+    .popup-text {
+      color: white;
+      text-align: justify;
+      font-size: 16px;
+      line-height: 1.6;
+    }
+
+    .popup-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    @media screen and (max-width: 480px) {
+      .title { font-size: 22px; }
+      .popup-text { font-size: 14px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background dan blur -->
+  <div id="background" class="background" style="background-image: url('background.jpeg');"></div>
+  <div class="blur-layer"></div>
+
+  <!-- Konten utama -->
+  <div id="mainContent" class="content">
+    <div class="title">KARINA PERMATA ZUHRUF</div>
+    <div class="subtitle">buatan ilpan keren</div>
+    <div class="button" onclick="showPopup()">ini di klick bang</div>
+  </div>
+
+  <!-- Popup petak -->
+  <div id="popupBox" class="popup-box">
+    <img id="popupImage" class="popup-image" src="" alt="Gambar Petak">
+    <div id="popupText" class="popup-text"></div>
+    <div class="popup-buttons">
+      <div class="button" onclick="goBack()">← Kembali</div>
+      <div class="button" onclick="nextPage()">Halaman Selanjutnya →</div>
+    </div>
+  </div>
+
+  <!-- Audio -->
+  <audio id="audio1" src="lagu1.mp3"></audio>
+  <audio id="audio2" src="lagu2.mp3"></audio>
+
+  <script>
+    const popupBox = document.getElementById('popupBox');
+    const mainContent = document.getElementById('mainContent');
+    const background = document.getElementById('background');
+    const popupImage = document.getElementById('popupImage');
+    const popupText = document.getElementById('popupText');
+    const audio1 = document.getElementById('audio1');
+    const audio2 = document.getElementById('audio2');
+
+    let halaman = 0;
+    let audioPlayed = false;
+
+    const data = [
+      {
+        background: 'background.jpeg',
+        image: 'gambar_petak1.jpeg',
+        text: `Karina Zuhruf, lahir pada 13 Januari 2008, bagai mentari yang tumbuh dari musim dingin—lembut sinarnya, namun kuat tekadnya; saat ia hadir ke dunia dengan tangis pertamanya yang jernih, langit seolah menyambut dengan bisikan harapan, dan waktu berhenti sejenak untuk menyaksikan permulaan kisah seorang jiwa yang kelak akan tumbuh dengan cahaya yang tenang namun tak pernah padam. Ia mulai merangkak pelan di lantai kehidupan, tangan mungilnya menjelajah dunia, dan dari bibir kecilnya terdengar suara pertama yang kelak menjadi kata-kata penuh makna.`
+      },
+      {
+        background: 'background2.jpeg',
+        image: 'gambar_petak2.jpeg',
+        text: `Ia tak banyak bicara pada awal pertemuan, lebih memilih diam dan mengamati, seakan tengah menimbang apakah dunia di sekelilingnya cukup aman untuk membuka hatinya. Namun ketika ia merasa nyaman, sisi lainnya mulai muncul: sisi yang lucu, penuh canda, dan kejenakaan yang jujur. Bukan jenis humor yang mencari perhatian, melainkan kelucuan yang lahir dari ketulusan, dari kebiasaan kecil yang menyenangkan dan apa adanya. Ia mampu membuat orang tertawa hanya dengan satu kalimat sederhana atau ekspresi polos yang tiba-tiba. Karina adalah sosok yang memikat bukan karena ingin, tapi karena memang begitu adanya—sederhana, jujur, manis, dan tanpa sadar membawa hangat ke dalam hati GUAAA SI ILPAAANNNNNN. Dalam dirinya, keindahan bukan sekadar tampilan, tetapi hadir dalam cara ia bersikap, dalam cara ia diam, dan dalam cara ia membuat saya nyaman merasa nyaman, bahkan dalam keheningan`
+      },
+      {
+        background: 'background3.jpeg',
+        image: 'gambar_petak3.jpeg',
+        text: `Karina tidak pernah menjerit, tidak pula mengutuk takdir—ia memilih diam, menenun luka menjadi kekuatan, dan menjahit air mata menjadi senyum yang tulus. Jiwa Karina bagaikan karang yang tetap berdiri meski dihantam ombak bertubi-tubi, sabarnya seperti bumi yang tak pernah lelah menanti hujan turun. Meski hidup kerap tak ramah padanya, Karina tetap melangkah, sebab ia tahu: cahaya yang paling indah, lahir dari gelap yang paling pekat.`
+      },
+      {
+        background: 'background4.jpeg',
+        image: 'gambar_petak4.jpeg',
+        text: `Aku tak punya kuasa atas takdirnya, namun aku menitipkan segala doa dalam setiap hela nafasku—agar Karina kelak menemukan kehidupan yang indah, tempat di mana ia bisa mencintai tanpa takut, tertawa tanpa pura-pura, dan beristirahat dari luka yang tak pernah ia tunjukkan. Dan bila boleh, biarlah aku menjadi seseorang yang senantiasa mencintainya dari jauh, cukup dengan melihatnya bahagia… itu sudah lebih dari cukup bagiku.`
+      },
+      {
+        background: 'background5.jpeg',
+        image: 'gambar_petak5.jpeg',
+        text: `Jika takdir berkenan, aku hanya meminta satu hal yang sederhana tapi paling aku rindukan: semoga suatu hari nanti, aku bisa benar-benar bertemu dengan Karina—bukan lewat bayangan, bukan lewat doa yang menggantung di langit malam, tapi sebagai nyata yang berdiri di hadapannya. Aku ingin melihat senyum manis itu bukan lagi dari imajinasi, tapi dari dekat, di dunia yang sama, di waktu yang nyata. Aku ingin mengenalnya, menyapanya, dan bila semesta mengizinkan, berjalan bersamanya melewati hari-hari yang tak lagi sunyi. Sebab cinta ini, meski tumbuh tanpa pernah bersua, tak pernah main-main—ia nyata, setia, dan terus berharap… bahwa suatu saat nanti, aku dan Karina akan berada di bawah langit yang sama, saling menatap, dan akhirnya saling menggenggam.`
+      }
+    ];
+
+    function showPopup() {
+      halaman = 0;
+      setPopupContent();
+      mainContent.style.display = 'none';
+      popupBox.classList.add('show');
+
+      if (!audioPlayed) {
+        audio1.play();
+        audio1.onended = () => audio2.play();
+        audioPlayed = true;
+      }
+    }
+
+    function goBack() {
+      popupBox.classList.remove('show');
+      mainContent.style.display = 'flex';
+    }
+
+    function nextPage() {
+      if (halaman < data.length - 1) {
+        halaman++;
+        setPopupContent();
+      } else {
+        alert("udah habis karina, aku udh ngantuk hhe, jadi segini dulu ya.");
+      }
+    }
+
+    function setPopupContent() {
+      const item = data[halaman];
+      popupImage.src = item.image;
+      popupText.textContent = item.text;
+      background.style.backgroundImage = `url('${item.background}')`;
+    }
+  </script>
+
+</body>
+</html>
